@@ -1,17 +1,22 @@
+const querystring = require('querystring')
 const blogRouterHandler = require("./src/router/blog")
 const userRouterHandler = require("./src/router/user")
 
 const serverHandler = function (req, res) {
+  const {method, url} = req
+  const path = url.split('?')[0]
+  const query = querystring.parse((url.split('?')[1]))  // 将url里的查询参数变成对象
+
   res.setHeader('Content-Type', 'application/json')
-  const blogData = blogRouterHandler(req, res)
+  const blogData = blogRouterHandler(method, path, query)
   // 命中blog路由
-  if(blogData){
+  if (blogData) {
     res.end(JSON.stringify(blogData))
     return
   }
-  const userData = userRouterHandler(req, res)
+  const userData = userRouterHandler(method, path)
   // 命中user路由
-  if(userData){
+  if (userData) {
     res.end(JSON.stringify(userData))
     return
   }

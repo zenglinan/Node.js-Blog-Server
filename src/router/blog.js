@@ -1,10 +1,11 @@
-const blogRouterHandler = function (req, res) {
-  const {method, url} = req
-  const path = url.split('?')[0]
-  const query = url.split('?')[1]
+const {getList} = require('../controller/blog.js')
+const {SuccessModel, ErrorModel} = require('../model/resModel')
+const blogRouterHandler = function (method, path, query) {
 
   if (path === '/api/blog/list' && method === 'GET') {
-    return "list"
+    const {author, keyword} = query
+    let listData = getList(author, keyword)
+    return new SuccessModel(listData)
   }
   if (path === '/api/blog/detail' && method === 'GET') {
     return "detail"
