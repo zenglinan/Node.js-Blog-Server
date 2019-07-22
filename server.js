@@ -1,12 +1,26 @@
-const serverHandle = function (req, res) {
+const blogRouterHandler = require("./src/router/blog")
+const userRouterHandler = require("./src/router/user")
+
+const serverHandler = function (req, res) {
   res.setHeader('Content-Type', 'application/json')
-  let resData = {
-    name: 'linan',
-    lover: 'datou love you forever'
+  const blogData = blogRouterHandler(req, res)
+  // 命中blog路由
+  if(blogData){
+    res.end(JSON.stringify(blogData))
+    return
   }
-  res.end(JSON.stringify(resData))
+  const userData = userRouterHandler(req, res)
+  // 命中user路由
+  if(userData){
+    res.end(JSON.stringify(userData))
+    return
+  }
+  // 没有命中路由
+  res.writeHead('404', {'Content-Type': 'text/plain'})
+  res.write('404 not Found\n')
+  res.end()
 }
-module.exports = serverHandle
+module.exports = serverHandler
 // const http = require('http')
 // const querystring = require('querystring')
 //

@@ -1,7 +1,5 @@
 const http = require('http')
-const serverHandle = require('../server')
+const serverHandler = require('../server')
 
-const httpServer = http.createServer(serverHandle)
-
-httpServer.listen(8000)
+const httpServer = http.createServer(serverHandler).listen(8000)
 console.log("8000端口服务器开启")
