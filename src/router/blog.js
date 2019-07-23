@@ -1,23 +1,38 @@
-const {getList} = require('../controller/blog.js')
+const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../controller/blog.js')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
-const blogRouterHandler = function (method, path, query) {
+const LIST = '/api/blog/list',
+      DETAIL = '/api/blog/detail',
+      NEW = '/api/blog/new',
+      UPDATE = '/api/blog/update',
+      DELETE = '/api/blog/del'
+let result  // 返回的数据
 
-  if (path === '/api/blog/list' && method === 'GET') {
-    const {author, keyword} = query
-    let listData = getList(author, keyword)
-    return new SuccessModel(listData)
+const blogRouterHandler = function (req) {
+  const {author, keyword, id} = req.query
+
+  if (req.path === LIST && req.method === 'GET') {
+    result = getList(author, keyword)
+    return new SuccessModel(result)
   }
-  if (path === '/api/blog/detail' && method === 'GET') {
-    return "detail"
+
+  if (req.path === DETAIL && req.method === 'GET') {
+    result = getBlogDetail(id)
+    return new SuccessModel(result)
   }
-  if (path === '/api/blog/new' && method === 'POST') {
-    return "new"
+
+  if (req.path === NEW && req.method === 'POST') {
+    result = newBlog(req.body)
+    return new SuccessModel(result)
   }
-  if (path === '/api/blog/update' && method === 'POST') {
-    return "update"
+
+  if (req.path === UPDATE && req.method === 'POST') {
+    result = updateBlog(id, req.body)
+    return new SuccessModel(result)
   }
-  if (path === '/api/blog/del' && method === 'POST') {
-    return "del"
+
+  if (req.path === DELETE && req.method === 'POST') {
+    result = delBlog(id)
+    return new SuccessModel(result)
   }
 }
 module.exports = blogRouterHandler
