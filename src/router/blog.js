@@ -6,7 +6,6 @@ const LIST = '/api/blog/list',
     UPDATE = '/api/blog/update',
     DELETE = '/api/blog/del'
 let result  // 返回的数据
-
 const blogRouterHandler = function (req) {
   const {author, keyword, id} = req.query
 

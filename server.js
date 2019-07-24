@@ -11,21 +11,19 @@ const serverHandler = function (req, res) {
   req.query = querystring.parse((url.split('?')[1]))  // 将url里的查询参数变成对象
   res.setHeader('Content-Type', 'application/json')
 
-  getPostData(req).then(postData => {
+  getPostData(req).then(postData => { // 获取post的数据后, 执行回调
     req.body = postData
 
-    const blogRouterResult = blogRouterHandler(req)
-    // 命中blog路由
-    if (blogRouterResult) {
+    const blogRouterResult = blogRouterHandler(req) // 检查blog路由
+    if (blogRouterResult) { // 命中blog路由
       blogRouterResult.then(blogData => {
         res.end(JSON.stringify(blogData))
       })
       return
     }
 
-    const userRouterResult = userRouterHandler(req)
-    // 命中user路由
-    if (userRouterResult) {
+    const userRouterResult = userRouterHandler(req) // 检查user路由
+    if (userRouterResult) { // 命中user路由
       userRouterResult.then((userData)=>{
         res.end(JSON.stringify(userData))
       })
