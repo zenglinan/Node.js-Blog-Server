@@ -23,10 +23,12 @@ const serverHandler = function (req, res) {
       return
     }
 
-    const userData = userRouterHandler(req)
+    const userRouterResult = userRouterHandler(req)
     // 命中user路由
-    if (userData) {
-      res.end(JSON.stringify(userData))
+    if (userRouterResult) {
+      userRouterResult.then((userData)=>{
+        res.end(JSON.stringify(userData))
+      })
       return
     }
 
