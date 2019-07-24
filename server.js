@@ -14,10 +14,12 @@ const serverHandler = function (req, res) {
   getPostData(req).then(postData => {
     req.body = postData
 
-    const blogData = blogRouterHandler(req)
+    const blogRouterResult = blogRouterHandler(req)
     // 命中blog路由
-    if (blogData) {
-      res.end(JSON.stringify(blogData))
+    if (blogRouterResult) {
+      blogRouterResult.then(blogData => {
+        res.end(JSON.stringify(blogData))
+      })
       return
     }
 

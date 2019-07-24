@@ -1,10 +1,10 @@
 const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../controller/blog.js')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
 const LIST = '/api/blog/list',
-      DETAIL = '/api/blog/detail',
-      NEW = '/api/blog/new',
-      UPDATE = '/api/blog/update',
-      DELETE = '/api/blog/del'
+    DETAIL = '/api/blog/detail',
+    NEW = '/api/blog/new',
+    UPDATE = '/api/blog/update',
+    DELETE = '/api/blog/del'
 let result  // 返回的数据
 
 const blogRouterHandler = function (req) {
@@ -12,7 +12,9 @@ const blogRouterHandler = function (req) {
 
   if (req.path === LIST && req.method === 'GET') {
     result = getList(author, keyword)
-    return new SuccessModel(result)
+    return result.then(listData => {
+      return new SuccessModel(listData)
+    })
   }
 
   if (req.path === DETAIL && req.method === 'GET') {
