@@ -1,7 +1,7 @@
 const exec = require('../../mysql/sql')
 
 function getList(author, keyword) {
-  let sql = `select * from blogs where 1=1 `  // 1=1是为了防止author 或 keyword不存在报错
+  let sql = `select * from blogs where state=1 `  // 1=1是为了防止author 或 keyword不存在报错
   if (author) {
     sql += `and author=${author} `  // 注意保留空格
   }
@@ -13,19 +13,28 @@ function getList(author, keyword) {
 }
 
 function newBlog(blogData = {}) {
-  return blogData
+  const {title, content, createtime, author} = blogData
+  let sql = `
+  insert into blogs 
+  (title, content, createtime, author) 
+  values('${title}', '${content}', '${createtime}', '${author}')`
+  return exec(sql)
 }
 
 function updateBlog(id, blogData = {}) {
-  return blogData
+  const {title, content} = blogData
+  let sql = `update blogs set title='${title}', content='${content}' where id=${id} and state=1`
+  return exec(sql)
 }
 
 function delBlog(id) {
-  return `删除id为${id}的博客`
+  let sql = `update blogs set state=0 where id=${id}`
+  return exec(sql)
 }
 
 function getBlogDetail(id) {
-  return `获取id为${id}的博客成功`
+  let sql = `select * from blogs where id=${id} and state=1`
+  return exec(sql)
 }
 
 module.exports = {

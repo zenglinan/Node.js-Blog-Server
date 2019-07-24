@@ -1,6 +1,6 @@
-const userRouterHandler = function (method, path) {
+const loginCheck = function (method, path) {
   if(path === '/api/user/login' && method === 'POST'){
     return 'login'
   }
 }
-module.exports = userRouterHandler
+module.exports = loginCheck

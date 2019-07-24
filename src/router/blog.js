@@ -18,23 +18,37 @@ const blogRouterHandler = function (req) {
   }
 
   if (req.path === DETAIL && req.method === 'GET') {
-    result = getBlogDetail(id)
-    return new SuccessModel(result)
+    result = getBlogDetail(+id) // 注意id是string类型的
+    return result.then(blogData => {
+      if (blogData.length) {  // 返回有数据, 说明这篇博客存在
+        return new SuccessModel(blogData)
+      }
+      return new ErrorModel("博客不存在")
+    })
   }
 
   if (req.path === NEW && req.method === 'POST') {
     result = newBlog(req.body)
-    return new SuccessModel(result)
+    return result.then((res) => {
+      return new SuccessModel(res)
+    })
   }
 
   if (req.path === UPDATE && req.method === 'POST') {
-    result = updateBlog(id, req.body)
-    return new SuccessModel(result)
+    result = updateBlog(+id, req.body)
+    return result.then(res => {
+      if (res.affectedRows) {  // 有修改
+        return new SuccessModel(res)
+      }
+      return new ErrorModel("文章不存在")
+    })
   }
 
-  if (req.path === DELETE && req.method === 'POST') {
-    result = delBlog(id)
-    return new SuccessModel(result)
+  if (req.path === DELETE && req.method === 'GET') {
+    result = delBlog(+id)
+    return result.then((res) => {
+      return new SuccessModel(res)
+    })
   }
 }
 module.exports = blogRouterHandler
