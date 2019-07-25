@@ -22,7 +22,7 @@ const serverHandler = function (req, res) {
       return
     }
 
-    const userRouterResult = userRouterHandler(req) // 检查user路由
+    const userRouterResult = userRouterHandler(req, res) // 检查user路由
     if (userRouterResult) { // 命中user路由
       userRouterResult.then((userData)=>{
         res.end(JSON.stringify(userData))

@@ -1,14 +1,16 @@
 const {SuccessModel, ErrorModel} = require('../model/resModel')
-const checkLogin = require('../controller/user')
+const login = require('../controller/user')
 
-const userRouterHandler = function (req) {
+const userRouterHandler = function (req, res) {
   const {username, password} = req.body
   let result
   if (req.path === '/api/user/login' && req.method === 'POST') {
-    result = checkLogin(username, password)
-    return result.then(res => {
-      if (res.length !== 0) {
-        return new SuccessModel(res)
+    result = login(username, password)
+    return result.then(data => {
+      console.log(data);
+      if (data.length !== 0) {
+        res.setHeader('Set-Cookie', `username=${data[0].username}; path=/; httpOnly`)
+        return new SuccessModel(data)
       } else {
         return new ErrorModel("登录失败, 请检查用户名或密码是否正确!")
       }
