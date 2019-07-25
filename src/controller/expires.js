@@ -1,6 +1,6 @@
-const getCookieExpires = () => {
+const getCookieExpires = (sec) => {
   const d = new Date()
-  d.setTime(d.getTime() + ( 1000))
+  d.setTime(d.getTime() + ( sec * 1000))
   return d.toGMTString()
 }
 module.exports = getCookieExpires

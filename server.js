@@ -3,7 +3,7 @@ const blogRouterHandler = require("./src/router/blog")
 const userRouterHandler = require("./src/router/user")
 const getPostData = require('./src/controller/getPostData')
 const getCookieExpires = require('./src/controller/expires')
-const SESSION_DATA = {}
+
 
 const serverHandler = function (req, res) {
   const {method, url} = req
@@ -27,18 +27,18 @@ const serverHandler = function (req, res) {
   })
 
   // 解析session
-  let needSetCookie = false
-  let userId = req.cookie.userid
-  if (userId) { // 如果访问的cookie带有userid, 不需要再设置userid的cookie
-    if (!SESSION_DATA[userId]) {  // 服务端的SESSION_DATA还没有存储这个userid相关的用户信息
-      SESSION_DATA[userId] = {} // 先初始化
-    }
-  } else {  // 需要设置userid的cookie
-    needSetCookie = true
-    userId = `${Date.now()}_${Math.random()}`
-    SESSION_DATA[userId] = {}
-  }
-  res.session = SESSION_DATA[userId]
+  // let needSetCookie = false
+  // let userId = req.cookie.userid
+  // if (userId) { // 如果访问的cookie带有userid, 不需要再设置userid的cookie
+  //   if (!SESSION_DATA[userId]) {  // 服务端的SESSION_DATA还没有存储这个userid相关的用户信息
+  //     SESSION_DATA[userId] = {} // 先初始化
+  //   }
+  // } else {  // 需要设置userid的cookie
+  //   needSetCookie = true
+  //   userId = `${Date.now()}_${Math.random()}`
+  //   SESSION_DATA[userId] = {}
+  // }
+  // res.session = SESSION_DATA[userId]
 
 
   getPostData(req).then(postData => { // 获取post的数据后, 执行回调
@@ -47,9 +47,9 @@ const serverHandler = function (req, res) {
     const blogRouterResult = blogRouterHandler(req) // 检查blog路由
     if (blogRouterResult) { // 命中blog路由
       blogRouterResult.then(blogData => {
-        if (needSetCookie) {
-          res.setHeader('Set-Cookie', `userId=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-        }
+        // if (needSetCookie) {
+        //   res.setHeader('Set-Cookie', `userId=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+        // }
         res.end(JSON.stringify(blogData))
       })
       return
@@ -58,11 +58,10 @@ const serverHandler = function (req, res) {
     const userRouterResult = userRouterHandler(req, res) // 检查user路由
     if (userRouterResult) { // 命中user路由
       userRouterResult.then((userData) => {
-        console.log('SESSION_DATA', SESSION_DATA);
-        console.log('SESSION_DATA[userId]', SESSION_DATA[userId]);
-        if (needSetCookie) {
-          res.setHeader('Set-Cookie', `userId=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-        }
+        console.log('hi');
+        // if (needSetCookie) {
+        //   res.setHeader('Set-Cookie', `userId=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+        // }
         res.end(JSON.stringify(userData))
       })
       return
