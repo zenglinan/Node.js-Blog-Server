@@ -58,7 +58,6 @@ const serverHandler = function (req, res) {
     const userRouterResult = userRouterHandler(req, res) // 检查user路由
     if (userRouterResult) { // 命中user路由
       userRouterResult.then((userData) => {
-        console.log('hi');
         // if (needSetCookie) {
         //   res.setHeader('Set-Cookie', `userId=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
         // }
