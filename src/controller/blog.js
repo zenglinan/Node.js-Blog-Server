@@ -8,7 +8,7 @@ function getList(author, keyword) {
   if (keyword) {
     sql += `and title=%${keyword}% `
   }
-  sql += `order by createtime desc`
+  sql += `order by id desc`
   return exec(sql)
 }
 

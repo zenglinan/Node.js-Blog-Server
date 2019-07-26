@@ -1,5 +1,6 @@
 const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../controller/blog.js')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
+const checkLogin = require('../controller/checkLogin')
 const LIST = '/api/blog/list',
     DETAIL = '/api/blog/detail',
     NEW = '/api/blog/new',
@@ -27,27 +28,51 @@ const blogRouterHandler = function (req) {
   }
 
   if (req.path === NEW && req.method === 'POST') {
-    result = newBlog(req.body)
-    return result.then((res) => {
-      return new SuccessModel(res)
+    return checkLogin(req).then(userData => {
+      if (userData !== 'null') {  // 已登录
+        req.body.author = JSON.parse(JSON.parse(userData)).username
+        result = newBlog(req.body)
+        return result.then((res) => {
+          return new SuccessModel(res)
+        })
+      }
+      else {  // 未登录
+        return new ErrorModel("请先登录")
+      }
     })
+
+
   }
 
   if (req.path === UPDATE && req.method === 'POST') {
-    result = updateBlog(+id, req.body)
-    return result.then(res => {
-      if (res.affectedRows) {  // 有修改
-        return new SuccessModel(res)
+    return checkLogin(req).then(userData=>{
+      if(userData !== 'null'){
+        result = updateBlog(+id, req.body)
+        return result.then(res => {
+          if (res.affectedRows) {  // 有修改
+            return new SuccessModel(res)
+          }
+          return new ErrorModel("文章不存在")
+        })
+      }else {
+        return new ErrorModel("请先登录")
       }
-      return new ErrorModel("文章不存在")
     })
+
   }
 
   if (req.path === DELETE && req.method === 'GET') {
-    result = delBlog(+id)
-    return result.then((res) => {
-      return new SuccessModel(res)
+    return checkLogin(req).then(userData=>{
+      if(userData !== 'null'){
+        result = delBlog(+id)
+        return result.then((res) => {
+          return new SuccessModel(res)
+        })
+      }else {
+        return new ErrorModel("请先登录")
+      }
     })
+
   }
 }
 module.exports = blogRouterHandler

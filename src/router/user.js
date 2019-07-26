@@ -3,9 +3,9 @@ const login = require('../controller/user')
 const setSession = require('../controller/setSession')
 
 const userRouterHandler = function (req, res) {
-  const {username, password} = req.body
+  const {username, password} = req.query
   let result
-  if (req.path === '/api/user/login' && req.method === 'POST') {
+  if (req.path === '/api/user/login' && req.method === 'GET') {
     result = login(username, password)
     return result.then(data => {
       if (data.length !== 0) {

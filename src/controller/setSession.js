@@ -9,7 +9,7 @@ function setSession(res, data) {
     username: data[0].username,
     realname: data[0].realname
   })
-  res.setHeader('Set-Cookie', `userId=${sessionId}; path=/; httpOnly; expires=${getCookieExpires(10)}`)
+  res.setHeader('Set-Cookie', `userid=${sessionId}; path=/; httpOnly; expires=${getCookieExpires(10000)}`)
 }
 
 module.exports = setSession
