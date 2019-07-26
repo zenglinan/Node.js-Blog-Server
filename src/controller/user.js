@@ -1,4 +1,4 @@
-const exec = require('../../mysql/sql')
+const exec = require('../../db/mysql')
 
 function login(username, password) {
   let sql = `

@@ -1,4 +1,4 @@
-const exec = require('../../mysql/sql')
+const exec = require('../../db/mysql')
 
 function getList(author, keyword) {
   let sql = `select * from blogs where state=1 `  // 1=1是为了防止author 或 keyword不存在报错

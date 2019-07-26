@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-const MYSQL_CONF = require('../conf/db')
+const {MYSQL_CONF} = require('../dbConfig/db')
 // 创建连接对象
 const connectObj = mysql.createConnection(MYSQL_CONF)
 // 开始连接
@@ -17,4 +17,5 @@ function exec(sql) {  // 传入sql语句
   })
 
 }
+
 module.exports = exec
