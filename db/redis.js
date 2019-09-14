@@ -1,10 +1,10 @@
 const redis = require('redis')
-const {REDIS_CONF} = require('../dbConfig/db')
+const {REDIS_CONF} = require('./config')
 const {port, host} = REDIS_CONF
 
 const redisClient = redis.createClient(port, host)
 redisClient.on('error', err => {
-  console.err(err)
+  console.error(err)
 })
 
 function setRedis(key, value) {

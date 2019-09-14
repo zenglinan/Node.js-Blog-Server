@@ -1,12 +1,14 @@
 const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../controller/blog.js')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
-const checkLogin = require('../controller/checkLogin')
+const checkLogin = require('../utils/checkLogin')
+
 const LIST = '/api/blog/list',
     DETAIL = '/api/blog/detail',
     NEW = '/api/blog/new',
     UPDATE = '/api/blog/update',
     DELETE = '/api/blog/del'
 let result  // 返回的数据
+
 const blogRouterHandler = function (req) {
   const {author, keyword, id} = req.query
 
@@ -19,6 +21,7 @@ const blogRouterHandler = function (req) {
 
   if (req.path === DETAIL && req.method === 'GET') {
     result = getBlogDetail(+id) // 注意id是string类型的
+
     return result.then(blogData => {
       if (blogData.length) {  // 返回有数据, 说明这篇博客存在
         return new SuccessModel(blogData)
@@ -72,7 +75,6 @@ const blogRouterHandler = function (req) {
         return new ErrorModel("请先登录")
       }
     })
-
   }
 }
 module.exports = blogRouterHandler
