@@ -1,4 +1,4 @@
-const {setRedis} = require('../../db/redis')
+const {setRedis} = require('../../../db/redis')
 let sessionId
 const getCookieExpires = require('./expires')
 

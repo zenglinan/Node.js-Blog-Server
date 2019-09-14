@@ -1,6 +1,6 @@
-const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../controller/blog.js')
+const {getList, delBlog, updateBlog, newBlog, getBlogDetail} = require('../utils/blog/blogEvents.js')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
-const checkLogin = require('../utils/checkLogin')
+const checkLogin = require('../utils/user/checkLogin')
 
 const LIST = '/api/blog/list',
     DETAIL = '/api/blog/detail',

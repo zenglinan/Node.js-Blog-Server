@@ -1,9 +1,9 @@
 const blogRouterHandler = require("./src/router/blog")
 const userRouterHandler = require("./src/router/user")
-const getPostData = require('./src/utils/getPostData')
-const parseRequest = require('./src/utils/parseRequest')
-const parseCookie = require('./src/utils/parseCookie')
-const getCookieExpires = require('./src/utils/expires')
+const getPostData = require('./src/utils/parse/getPostData')
+const parseRequest = require('./src/utils/parse/parseRequest')
+const parseCookie = require('./src/utils/parse/parseCookie')
+const getCookieExpires = require('./src/utils/session/expires')
 
 
 const serverHandler = function (req, res) {

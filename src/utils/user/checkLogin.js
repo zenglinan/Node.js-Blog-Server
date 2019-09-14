@@ -1,4 +1,4 @@
-const {getRedis} = require('../../db/redis')
+const {getRedis} = require('../../../db/redis')
 
 function checkLogin(req) {
   const userId = req.cookie.userid || ''
